@@ -26,6 +26,26 @@ Building from source on Windows is generally not recommended but [a guide is ava
 
 If you are running on CentOS 7, Debian 11/12, Rocky Linux 8/9, Ubuntu 18.04/20.04/22.04, or Windows 8+ binary packages are available from [the downloads page](https://github.com/inspircd/inspircd/releases/latest).
 
+*Recommended Installation*
+
+  1.  Git CLONE from our InspIRCd Github: `git clone https://github.com/IRC4Fun/inspircd.git inspircd3-src`
+        *Dependencies:* `build-essential , curl , libwww-perl`
+  2.  `cd inspircd3-src` and run `./configure` — The path should be `/home/acct/inspircd3`
+  3.  Once completed, you will need to use InspIRCd3’s modulemanager to install the following contrib modules.
+        `./modulemanager install m_shed_users`
+        `./modulemanager install m_opmoderated`
+        `./modulemanager install m_joinpartsno`
+        `./modulemanager install m_stats_unlinked`
+        `./modulemanager install m_require_auth`
+        `./modulemanager install m_svsoper`
+        `./modulemanager install m_tag_iphost`
+        `./modulemanager install m_changecap`
+
+  4.  Now you will need to run `make`, followed by `make install`.
+  5.  Setup your inspircd.conf (found in inspircd3/run/conf) using the template provided.
+  6.  Your server is now ready for configuration before being run.  Configuration files are provided if your application is passed into Testlink.  You may run a temporary configuration of your own, if you wish to have the server running before it is reviewed.  (However, understand that the IRC4Fun configuration files will only be provided should the application be voted into Testlink.)
+
+
 A [Docker](https://www.docker.com) image is also available. See [the inspircd-docker repository](https://github.com/inspircd/inspircd-docker) for more information.
 
 Some distributions ship an InspIRCd package in their package managers. We generally do not recommend the use of such packages as in the past distributions have made broken modifications to InspIRCd and not kept their packages up to date with essential security updates.
