@@ -32,14 +32,14 @@ If you are running on CentOS 7, Debian 11/12, Rocky Linux 8/9, Ubuntu 18.04/20.0
         *Dependencies:* `build-essential , curl , libwww-perl`
   2.  `cd inspircd3-src` and run `./configure` — The path should be `/home/acct/inspircd3`
   3.  Once completed, you will need to use InspIRCd3’s modulemanager to install the following contrib modules.
-        `./modulemanager install m_shed_users`
-        `./modulemanager install m_opmoderated`
-        `./modulemanager install m_joinpartsno`
-        `./modulemanager install m_stats_unlinked`
-        `./modulemanager install m_require_auth`
-        `./modulemanager install m_svsoper`
-        `./modulemanager install m_tag_iphost`
-        `./modulemanager install m_changecap`
+        `./modulemanager install m_shed_users`  
+        `./modulemanager install m_opmoderated`  
+        `./modulemanager install m_joinpartsno`  
+        `./modulemanager install m_stats_unlinked`  
+        `./modulemanager install m_require_auth`  
+        `./modulemanager install m_svsoper`  
+        `./modulemanager install m_tag_iphost`  
+        `./modulemanager install m_changecap`  
 
   4.  Now you will need to run `make`, followed by `make install`.
   5.  Setup your inspircd.conf (found in inspircd3/run/conf) using the template provided.
