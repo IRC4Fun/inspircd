@@ -28,10 +28,11 @@ If you are running on CentOS 7, Debian 11/12, Rocky Linux 8/9, Ubuntu 18.04/20.0
 
 *Recommended Installation*
 
-  1.  Git CLONE from our InspIRCd Github: `git clone https://github.com/IRC4Fun/inspircd.git inspircd3-src`
+  1.  Git CLONE from our InspIRCd Github: `git clone https://github.com/IRC4Fun/inspircd.git`
         *Dependencies:* `build-essential , curl , libwww-perl`
-  2.  `cd inspircd3-src` and run `./configure` — The path should be `/home/acct/inspircd3`
-  3.  Once completed, you will need to use InspIRCd3’s modulemanager to install the following contrib modules.
+  2.  `cd inspircd` and run `./configure` — The path(s) should be `/home/acct/inspircd`
+  3.  Allow the configuration manager to enable all extra plugins at once.
+  4.  Once completed, you will need to use InspIRCd3’s modulemanager to install the following contrib modules.
         `./modulemanager install m_shed_users`  
         `./modulemanager install m_opmoderated`  
         `./modulemanager install m_joinpartsno`  
@@ -41,9 +42,9 @@ If you are running on CentOS 7, Debian 11/12, Rocky Linux 8/9, Ubuntu 18.04/20.0
         `./modulemanager install m_tag_iphost`  
         `./modulemanager install m_changecap`  
 
-  4.  Now you will need to run `make`, followed by `make install`.
-  5.  Setup your inspircd.conf (found in inspircd3/run/conf) using the template provided.
-  6.  Your server is now ready for configuration before being run.  Configuration files are provided if your application is passed into Testlink.  You may run a temporary configuration of your own, if you wish to have the server running before it is reviewed.  (However, understand that the IRC4Fun configuration files will only be provided should the application be voted into Testlink.)
+  5.  Now you will need to run `make`, followed by `make install`.
+  6.  Setup your inspircd.conf (found in inspircd/run/conf) using the template provided.
+  7.  Your server is now ready for configuration before being run.  Configuration files are provided if your application is passed into Testlink.  You may run a temporary configuration of your own, if you wish to have the server running before it is reviewed.  (However, understand that the IRC4Fun configuration files will only be provided should the application be voted into Testlink.)
 
 
 A [Docker](https://www.docker.com) image is also available. See [the inspircd-docker repository](https://github.com/inspircd/inspircd-docker) for more information.

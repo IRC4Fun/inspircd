@@ -33,8 +33,8 @@ email="##EDIT-ADMIN##@IRC4Fun.net">
 <bind address="" port="6697" type="clients" ssl="gnutls">
 <bind address="##EDIT-IPv6-ADDRESS" port="6697" type="clients" ssl="gnutls">
 <gnutls
-certfile="##EDIT-PATH##/inspircd3/run/conf/cert.pem"
-keyfile="##EDIT-PATH##/inspircd-3/run/conf/key.pem"
+certfile="##EDIT-PATH##/inspircd/run/conf/cert.pem"
+keyfile="##EDIT-PATH##/inspircd/run/conf/key.pem"
 priority="SECURE192:-VERS-SSL3.0">
 <module name="m_ssl_gnutls.so">
 
@@ -196,7 +196,7 @@ timeout="5">
 # An example of using an IPv6 nameserver
 #<dns server="::1" timeout="5">
 
-<pid file="##EDIT-PATH##/inspircd3/run/data/inspircd.pid">
+<pid file="##EDIT-PATH##/inspircd/run/data/inspircd.pid">
 
 #-#-#-#-#-#-#-#-#-#-#-#-#- LIST MODE LIMITS #-#-#-#-#-#-#-#-#-#-#-#-#-#
 
