@@ -6,7 +6,6 @@
  *   Copyright (C) 2013 ChrisTX <xpipe@hotmail.de>
  *   Copyright (C) 2012-2014 Attila Molnar <attilamolnar@hush.com>
  *   Copyright (C) 2012 Robby <robby@chatbelgie.be>
- *   Copyright (C) 2010 Craig Edwards <brain@inspircd.org>
  *   Copyright (C) 2009-2010 Daniel De Graaf <danieldg@inspircd.org>
  *
  * This file is part of InspIRCd.  InspIRCd is free software: you can
@@ -60,7 +59,13 @@ struct FilePosition
 	FilePosition(const std::string& Name)
 		: name(Name)
 		, line(1)
-		, column(1)
+		, column(0)
+	{
+	}
+
+	FilePosition()
+		: line(0)
+		, column(0)
 	{
 	}
 
@@ -119,7 +124,7 @@ struct Parser
 	std::string mandatory_tag;
 
 	Parser(ParseStack& me, int myflags, FILE* conf, const std::string& name, const std::string& mandatorytag)
-		: stack(me), flags(myflags), file(conf), current(name), last_tag(name), ungot(-1), mandatory_tag(mandatorytag)
+		: stack(me), flags(myflags), file(conf), current(name), ungot(-1), mandatory_tag(mandatorytag)
 	{ }
 
 	int next(bool eof_ok = false)
@@ -402,9 +407,10 @@ struct Parser
 		{
 			stack.errstr << err.GetReason() << " at " << current.str();
 			if (tag)
-				stack.errstr << " (inside tag " << tag->tag << " at line " << tag->src_line << ")\n";
-			else
-				stack.errstr << " (last tag was on line " << last_tag.line << ")\n";
+				stack.errstr << " (inside <" << tag->tag << "> tag on line " << tag->src_line << ")";
+			else if (!last_tag.name.empty())
+				stack.errstr << " (last tag was on line " << last_tag.line << ")";
+			stack.errstr << " \n";
 		}
 		return false;
 	}
