@@ -39,8 +39,8 @@ priority="SECURE192:-VERS-SSL3.0">
 <module name="m_ssl_gnutls.so">
 
 # Plaintext listener that binds on a TCP/IP endpoint:
-<bind address="##EDIT-IPv4-ADDRESS" port="6667" type="clients">
-<bind address="##EDIT-IPv6-ADDRESS" port="6667" type="clients">
+<bind address="##EDIT-IPv4-ADDRESS" port="6661-6669" type="clients">
+<bind address="##EDIT-IPv6-ADDRESS" port="6661-6669" type="clients">
 
 # Listener that binds on a UNIX endpoint (not supported on Windows):
 #<bind
