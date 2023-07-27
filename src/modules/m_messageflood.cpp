@@ -130,6 +130,12 @@ private:
 	{
 	}
 
+  void init() CXX11_OVERRIDE
+{
+  /* Enables Flood announcements for everyone with +s +f */
+  ServerInstance->SNO->EnableSnomask('f', "FLOOD");
+}
+
 	void ReadConfig(ConfigStatus&) CXX11_OVERRIDE
 	{
 		ConfigTag* tag = ServerInstance->Config->ConfValue("messageflood");
@@ -169,6 +175,9 @@ private:
 					" lines in " + ConvToStr(f->secs) + " secs)";
 
 				dest->KickUser(ServerInstance->FakeClient, user, kickMessage);
+
+        ServerInstance->SNO->WriteGlobalSno('f', "Channel flood triggered by %s (%s) in %s (limit was %u lines in %u secs)",
+					user->GetFullRealHost().c_str(), user->GetFullHost().c_str(), dest->name.c_str(), f->lines, f->secs);
 
 				return MOD_RES_DENY;
 			}
