@@ -43,6 +43,10 @@ If you are running on CentOS 7, Debian 11/12, Rocky Linux 8/9, Ubuntu 18.04/20.0
         `./modulemanager install m_svsoper`  
         `./modulemanager install m_tag_iphost`  
         `./modulemanager install m_changecap`  
+        `./modulemanager install m_blockhighlight`  
+        `./modulemanager install m_extbanredirect`  
+        `./modulemanager install m_antiknocker`  
+        `./modulemanager install m_cve_2022_2663`  
 
   6.  Now you will need to run `make`, followed by `make install`.  
   7.  Setup your *inspircd.conf* _(found in *inspircd/run/conf*)_ using the template provided.  
