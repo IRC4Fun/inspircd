@@ -21,7 +21,7 @@ set -e
 INSPIRCD_PID_FILE="/home/ircd/inspircd/run/data/inspircd.pid"
 
 # The location of the InspIRCd runtime directory.
-INSPIRCD_RUN_DIR="/home/ircd/inspircd/run/bin"
+INSPIRCD_RUN_DIR="/home/ircd/inspircd/run/bin/inspircd"
 
 
 # DO NOT EDIT BELOW THIS LINE!
@@ -31,4 +31,4 @@ if [ -e ${INSPIRCD_PID_FILE} ]
 then
     kill `cat ${INSPIRCD_PID_FILE}`
 fi
-.${INSPIRCD_RUN_DIR}/inspircd start
+${INSPIRCD_RUN_DIR}
