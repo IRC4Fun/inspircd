@@ -3,7 +3,7 @@
  *
  *   Copyright (C) 2019 Matt Schatz <genius3000@g3k.solutions>
  *   Copyright (C) 2017 B00mX0r <b00mx0r@aureus.pw>
- *   Copyright (C) 2016-2019, 2021-2022 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2016-2019, 2021-2022, 2024 Sadie Powell <sadie@witchery.services>
  *   Copyright (C) 2012-2016, 2018 Attila Molnar <attilamolnar@hush.com>
  *   Copyright (C) 2012, 2019 Robby <robby@chatbelgie.be>
  *   Copyright (C) 2012 Shawn Smith <ShawnSmith0828@gmail.com>
@@ -212,7 +212,10 @@ ModeAction PrefixMode::OnModeChange(User* source, User*, Channel* chan, std::str
 
 	Membership* memb = chan->GetUser(target);
 	if (!memb)
+	{
+		source->WriteNumeric(ERR_USERNOTINCHANNEL, target->nick, chan->name, "They are not on that channel");
 		return MODEACTION_DENY;
+	}
 
 	parameter = target->nick;
 	return (memb->SetPrefix(this, adding) ? MODEACTION_ALLOW : MODEACTION_DENY);
