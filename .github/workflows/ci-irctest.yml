@@ -16,24 +16,17 @@ on:
 jobs:
   build:
     if: "!contains(github.event.head_commit.message, '[skip irctest ci]')"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Checkout irctest
-        uses: actions/checkout@v4
-        with:
-          path: irctest
-          ref: 2dea91e17a873761f20bd10a9a188f6abe2046ba
-          repository: progval/irctest
 
       - name: Run configure
         run: ./configure --development --disable-auto-extras --prefix=$HOME/.local/
 
       # Speed-up build (6 min -> 5 min)
       - name: Precompile inspircd.h
-        run: c++ -I vendor/ include/inspircd.h
+        run: c++ -isystem vendor include/inspircd.h
 
       - name: Build and install
         env:
@@ -54,7 +47,9 @@ jobs:
 
   test:
     if: "!contains(github.event.head_commit.message, '[skip irctest ci]')"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
+    env:
+      IRCTEST_DEBUG_LOGS: "1"
     needs:
     - build
     steps:
@@ -73,7 +68,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: irctest
-          ref: 2dea91e17a873761f20bd10a9a188f6abe2046ba
+          ref: 75d9040d37041e7dae971357fbab500fe06cc01f
           repository: progval/irctest
 
       - name: Install irctest dependencies
@@ -97,7 +92,7 @@ jobs:
           cd $GITHUB_WORKSPACE/anope/
           sudo apt-get install ninja-build --no-install-recommends
           mkdir build && cd build
-          cmake -DCMAKE_INSTALL_PREFIX=$HOME/.local/ -DPROGRAM_NAME=anope -DUSE_PCH=ON -GNinja ..
+          cmake -DCMAKE_INSTALL_PREFIX=$HOME/.local/ -DPROGRAM_NAME=anope -GNinja ..
           ninja install
 
       - name: Run irctest (Anope services)
