@@ -24,7 +24,7 @@ Most InspIRCd users running a UNIX-like system build from source. A guide about 
 
 Building from source on Windows is generally not recommended but [a guide is available](https://docs.inspircd.org/3/installation/windows-source/) if you wish to do this.
 
-If you are running on CentOS 7, Debian 11/12/13, Rocky Linux 8/9, Ubuntu 20.04/22.04, or Windows 8+ binary packages are available from [the downloads page](https://github.com/inspircd/inspircd/releases/latest).
+If you are running on Debian 11/12/13, RHEL 8/9, Ubuntu 20.04/22.04, or Windows 8+ binary packages are available from [the downloads page](https://github.com/inspircd/inspircd/releases/latest).
 
 *Recommended Installation*
 
@@ -67,6 +67,6 @@ InspIRCd is licensed under [version 2 of the GNU General Public License](https:/
 * [Documentation](https://docs.inspircd.org)
 * [GitHub](https://github.com/inspircd)
 * [Social Media](https://docs.inspircd.org/social)
-* Support IRC channel &mdash; \#inspircd on irc.chatspike.net
-* Development IRC channel &mdash; \#inspircd.dev on irc.chatspike.net
+* Support IRC channel &mdash; \#inspircd on irc.inspircd.org
+* Development IRC channel &mdash; \#inspircd.dev on irc.inspircd.org
 * InspIRCd test network &mdash; testnet.inspircd.org
