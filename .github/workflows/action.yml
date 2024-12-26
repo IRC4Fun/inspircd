@@ -30,5 +30,5 @@ jobs:
           channel: "#Development,#IRC4Fun"
           server: "irc.irc4fun.net"
           nickname: "GitHub"
-          ansicolor: "true"
+          ansicolor: "false"
           eventpath: ${{ github.event_path }}
