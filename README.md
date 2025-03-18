@@ -20,15 +20,23 @@ If you encounter any bugs then [please file an issue](https://github.com/inspirc
 
 ## Installation
 
-Most InspIRCd users running a UNIX-like system build from source. A guide about how to do this is available on [the InspIRCd docs site](https://docs.inspircd.org/4/installation/source).
+*Recommended Installation*
 
-Building from source on Windows is generally not recommended but [a guide is available](https://docs.inspircd.org/4/installation/windows-source/) if you wish to do this.
+  1.  Git CLONE from our InspIRCd Github: `git clone https://github.com/IRC4Fun/inspircd.git inspircd4`  
+        *Dependencies:* `build-essential , curl , libwww-perl , libpsl`  
+  2.  `cd inspircd4` and run `./configure` — The path(s) should be `/home/acct/inspircd4`  
+  3.  Allow the configuration manager to enable all extra plugins at once.  
+  4.  Once completed, you will need to use InspIRCd4’s modulemanager to install the following contrib modules.  
+        `./modulemanager install hostchange`  
+        `./modulemanager install m_require_auth`  
+        `./modulemanager install m_antiknocker`  
+        `./modulemanager install m_cve_2024_39844`  
+        `./modulemanager install m_userip`  
 
-If you are running on Debian 12/13, RHEL 8/9, Ubuntu 22.04/24.04, or Windows 10+ binary packages are available from [the downloads page](https://github.com/inspircd/inspircd/releases/latest).
+  5.  Now you will need to run `make`, followed by `make install`.  
+  6.  Setup your *inspircd.conf* _(found in *inspircd4/run/conf/examples*)_ using the template provided, and save as *inspircd4/run/conf/inspircd.conf*.  
+  7.  Your server is now ready for configuration before being run.  Configuration files are provided if your application is passed into Testlink.  You may run a temporary configuration of your own, if you wish to have the server running before it is reviewed.  (However, understand that the IRC4Fun configuration files will only be provided should the application be voted into Testlink.)  
 
-A [Docker](https://www.docker.com) image is also available. See [the inspircd-docker repository](https://github.com/inspircd/inspircd-docker) for more information.
-
-Some distributions ship an InspIRCd package in their package managers. We generally do not recommend the use of such packages as in the past distributions have made broken modifications to InspIRCd and not kept their packages up to date with essential security updates.
 
 ## License
 
