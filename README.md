@@ -32,6 +32,8 @@ If you encounter any bugs then [please file an issue](https://github.com/inspirc
         `./modulemanager install m_antiknocker`  
         `./modulemanager install m_cve_2024_39844`  
         `./modulemanager install m_userip`  
+        `./modulemanager install m_nopartmsg`  
+        `./modulemanager install m_stats_unlinked`  
 
   5.  Now you will need to run `make`, followed by `make install`.  
   6.  Setup your *inspircd.conf* _(found in *inspircd4/run/conf/examples*)_ using the template provided, and save as *inspircd4/run/conf/inspircd.conf*.  
