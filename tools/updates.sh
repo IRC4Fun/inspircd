@@ -25,5 +25,5 @@ INSPIRCD_DIR="/home/user/inspircd4/"
  ./configure --disable-interactive --development
 
   # Now for the finale -- build and install the updates.
-  make ; make install
+  make -j2 install
 
