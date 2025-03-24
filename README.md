@@ -38,8 +38,10 @@ If you encounter any bugs then [please file an issue](https://github.com/inspirc
         `./modulemanager install m_stats_unlinked`  
 
   5.  Now you will need to run `make`, followed by `make install`.  
-  6.  Setup your *inspircd.conf* _(found in *inspircd4/run/conf/examples*)_ using the template provided, and save as *inspircd4/run/conf/inspircd.conf*.  
-  7.  Your server is now ready for configuration before being run.  Configuration files are provided if your application is passed into Testlink.  You may run a temporary configuration of your own, if you wish to have the server running before it is reviewed.  (However, understand that the IRC4Fun configuration files will only be provided should the application be voted into Testlink.)  
+  6.  `cp -R /home/acct/inspircd4/tools/ssl /home/acct/ssl`, then `nano /home/acct/ssl/daily_certcheck_update.sh` and update the PATH.  
+  7.  `cp /home/acct/inspircd4/tools/updates.sh /home/acct/updates.sh`, then `nano /home/acct/updates.sh` and update the PATH.  
+  8.  Setup your *inspircd.conf* _(found in *inspircd4/run/conf/examples*)_ using the template provided, and save as `inspircd4/run/conf/inspircd.conf`.  
+  9.  Your server is now ready for configuration before being run.  Configuration files are provided if your application is passed into Testlink.  You may run a temporary configuration of your own, if you wish to have the server running before it is reviewed.  (However, understand that the IRC4Fun configuration files will only be provided should the application be voted into Testlink.)  
 
 
 ## License
