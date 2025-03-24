@@ -23,12 +23,13 @@ If you encounter any bugs then [please file an issue](https://github.com/inspirc
 *Recommended Installation*
 
   1.  Git CLONE from our InspIRCd Github: `git clone https://github.com/IRC4Fun/inspircd.git inspircd4`  
-        *Dependencies:* `build-essential , curl , libwww-perl , libpsl`  
+        *Dependencies:* `build-essential , curl , libwww-perl , libpsl-dev`  
   2.  `cd inspircd4` and run `./configure` — The path(s) should be `/home/acct/inspircd4`  
   3.  Allow the configuration manager to enable all extra plugins at once.  
   4.  Once completed, you will need to use InspIRCd4’s modulemanager to install the following contrib modules.  
         `./modulemanager install hostchange`
-        `./modulemanager install m_blockhighlight`  
+        `./modulemanager install m_blockhighlight`
+        `./modulemanager install m_blocksock`
         `./modulemanager install m_require_auth`  
         `./modulemanager install m_antiknocker`  
         `./modulemanager install m_cve_2024_39844`  
