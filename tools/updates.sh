@@ -18,7 +18,7 @@ INSPIRCD_DIR="/home/user/inspircd4/"
   git pull
 
   # Update any contrib modules that have updates...
- ./modulemanager update
+ ./modulemanager upgrade
 
   # We have to now run ./configure to properly update the 
   # version and version-HASH.
