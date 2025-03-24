@@ -32,5 +32,5 @@ jobs:
           server: "irc.irc4fun.net"
           nickname: "GitHub"
           sasl_password: ${{ secrets.SASLPASS }}
-          ansicolor: "true"
+          ansicolor: "false"
           eventpath: ${{ github.event_path }}
