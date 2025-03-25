@@ -10,6 +10,17 @@
 # The location of the InspIRCd config directory.
 INSPIRCD_DIR="/home/user/inspircd4/"
 
+# Check to ensure that the updates script is NOT already running,
+#  to prevent duplicate instances of the script running at once.
+
+if [ -e "updates.running" ]; then
+    echo "Another instance of the Updates script is running. Aborting."
+    exit
+fi
+else
+    touch  "updates.running"
+fi
+
   # Enter the InspIRCd directory
   cd ${INSPIRCD_DIR}
 

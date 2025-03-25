@@ -5,10 +5,10 @@ set -e
 CERT_DIR="/home/ircd/ssl/irc4fun.net/staffdocs"
 
 # The location of the InspIRCd config directory.
-INSPIRCD_CONFIG_DIR="/home/ircd/inspircd/run/conf"
+INSPIRCD_CONFIG_DIR="/home/ircd/inspircd4/run/conf"
 
 # The location of the InspIRCd pid file.
-INSPIRCD_PID_FILE="/home/ircd/inspircd/run/data/inspircd.pid"
+INSPIRCD_PID_FILE="/home/ircd/inspircd4/run/data/inspircd.pid"
 
 # The user:group that InspIRCd runs as.
 INSPIRCD_OWNER="ircd:ircd"
