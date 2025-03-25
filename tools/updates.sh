@@ -38,3 +38,4 @@ fi
   # Now for the finale -- build and install the updates.
   make -j 1 install
 
+rm "updates.running"
