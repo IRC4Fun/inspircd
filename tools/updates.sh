@@ -13,12 +13,9 @@ INSPIRCD_DIR="/home/user/inspircd4/"
 # Check to ensure that the updates script is NOT already running,
 #  to prevent duplicate instances of the script running at once.
 
-if [ -e "updates.running" ]; then
-    echo "Another instance of the Updates script is running. Aborting."
-    exit
-fi
-else
-    touch  "updates.running"
+if [ $(pgrep -c "updates.sh") -gt 1 ]; then
+     echo "Another instance of the script is running. Aborting."
+     exit
 fi
 
   # Enter the InspIRCd directory
@@ -37,5 +34,3 @@ fi
 
   # Now for the finale -- build and install the updates.
   make -j 1 install
-
-rm "updates.running"
