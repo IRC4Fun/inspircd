@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: Notify IRC
-        uses: openzfsonwindows/notify-irc@v1
+        uses: openzfsonwindows/notify-irc@v2
         with:
 
           channel: "#IRC4Fun"
