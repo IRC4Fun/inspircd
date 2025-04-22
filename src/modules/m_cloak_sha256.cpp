@@ -30,7 +30,6 @@
 #ifdef _WIN32
 # if __has_include(<libpsl.h>)
 #  define HAS_LIBPSL
-#  pragma comment(lib, "psl.lib")
 # endif
 #endif
 
@@ -74,6 +73,9 @@ private:
 	const std::string prefix;
 
 #ifdef HAS_LIBPSL
+	// Whether to enforce the use of the Public Suffix List in link data.
+	bool enforcepsl;
+
 	// Handle to the Public Suffix List library.
 	psl_ctx_t* psl;
 #endif
@@ -201,6 +203,7 @@ public:
 		, pathparts(tag->getNum<unsigned long>("pathparts", 1, 0, ServerInstance->Config->Limits.MaxHost / 2))
 		, prefix(tag->getString("prefix"))
 #ifdef HAS_LIBPSL
+		, enforcepsl(p ? tag->getBool("enforcepsl") : false)
 		, psl(p)
 #endif
 		, sha256(engine->creator, "hash/sha256")
@@ -212,7 +215,7 @@ public:
 		});
 	}
 
-#ifdef HAS_PSL
+#ifdef HAS_LIBPSL
 	~SHA256Method() override
 	{
 		if (psl)
@@ -268,8 +271,8 @@ public:
 		data["cloak-host"] = sha256 ? Generate("extremely.long.inspircd.cloak.example") : broken;
 		data["host-parts"] = ConvToStr(hostparts);
 
-#ifdef HAS_PSL
-		data["using-psl"] = psl ? "yes" : "no";
+#ifdef HAS_LIBPSL
+		data["using-psl"] = enforcepsl ? "yes" : "no";
 #else
 		data["using-psl"] = "no";
 #endif
