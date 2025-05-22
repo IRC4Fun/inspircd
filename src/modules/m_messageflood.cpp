@@ -307,33 +307,33 @@ public:
 						InformUser(dest, user, msg);
 						CreateBan(dest, user, false);
 						ServerInstance->SNO.WriteToSnoMask('a', "Possible Flooder {} target: {}",
-								user->nick, dest);
+								user->nick, dest->name);
 						break;
 
 					case MsgFloodAction::BLOCK:
 						InformUser(dest, user, msg);
 						ServerInstance->SNO.WriteToSnoMask('a', "Possible Flooder {} target: {}",
-								user->nick, dest);
+								user->nick, dest->name);
 						break;
 
 					case MsgFloodAction::KICK:
 						dest->KickUser(ServerInstance->FakeClient, user, msg);
 						ServerInstance->SNO.WriteToSnoMask('a', "Possible Flooder {} target: {}",
-								user->nick, dest);
+								user->nick, dest->name);
 						break;
 
 					case MsgFloodAction::KICK_BAN:
 						CreateBan(dest, user, false);
 						dest->KickUser(ServerInstance->FakeClient, user, msg);
 						ServerInstance->SNO.WriteToSnoMask('a', "Possible Flooder {} target: {}",
-								user->nick, dest);
+								user->nick, dest->name);
 						break;
 
 					case MsgFloodAction::MUTE:
 						InformUser(dest, user, msg);
 						CreateBan(dest, user, true);
 						ServerInstance->SNO.WriteToSnoMask('a', "Possible Flooder {} target: {}",
-								user->nick, dest);
+								user->nick, dest->name);
 						break;
 				}
 
