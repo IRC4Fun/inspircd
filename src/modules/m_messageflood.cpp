@@ -313,7 +313,7 @@ public:
 					case MsgFloodAction::BLOCK:
 						InformUser(dest, user, msg);
 						ServerInstance->SNO.WriteToSnoMask('b', "Possible Flooder {}[{}@{}] on {} target: {}",
-								user->nick, user->GetBanUser(true, user->GetDisplayedHost(), user->server->GetName(), dest->name);
+								user->nick, user->GetBanUser(true), user->GetDisplayedHost(), user->server->GetName(), dest->name);
 						break;
 
 					case MsgFloodAction::KICK:
