@@ -314,6 +314,7 @@ public:
 						InformUser(dest, user, msg);
 						ServerInstance->SNO.WriteToSnoMask('b', "Possible Flooder {}[{}@{}] on {} target: {}",
 								user->nick, user->GetBanUser(false), user->GetDisplayedHost(), user->server->GetName(), dest->name);
+						break;
 
 					case MsgFloodAction::KICK:
 						dest->KickUser(ServerInstance->FakeClient, user, msg);
