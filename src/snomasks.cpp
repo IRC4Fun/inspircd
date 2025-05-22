@@ -56,7 +56,6 @@ void SnomaskManager::WriteGlobalSno(char letter, const std::string& text)
 SnomaskManager::SnomaskManager()
 {
 	EnableSnomask('a', "ANNOUNCEMENT");
-	EnableSnomask('b', "Notice");
 	EnableSnomask('c', "CONNECT");
 	EnableSnomask('k', "KILL");
 	EnableSnomask('o', "OPER");
