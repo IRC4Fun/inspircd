@@ -306,34 +306,33 @@ public:
 					case MsgFloodAction::BAN:
 						InformUser(dest, user, msg);
 						CreateBan(dest, user, false);
-						ServerInstance->SNO.WriteToSnoMask('a', "Possible Flooder {} target: {}",
-								user->nick, dest->name);
+						ServerInstance->SNO.WriteToSnoMask('b', "Possible Flooder {}[{}@{}] on {} target: {}",
+								user->nick, user->GetBanUser(false), user->GetDisplayedHost(), user->server->GetName(), dest->name);
 						break;
 
 					case MsgFloodAction::BLOCK:
 						InformUser(dest, user, msg);
-						ServerInstance->SNO.WriteToSnoMask('a', "Possible Flooder {} target: {}",
-								user->nick, dest->name);
-						break;
+						ServerInstance->SNO.WriteToSnoMask('b', "Possible Flooder {}[{}@{}] on {} target: {}",
+								user->nick, user->GetBanUser(false), user->GetDisplayedHost(), user->server->GetName(), dest->name);
 
 					case MsgFloodAction::KICK:
 						dest->KickUser(ServerInstance->FakeClient, user, msg);
-						ServerInstance->SNO.WriteToSnoMask('a', "Possible Flooder {} target: {}",
-								user->nick, dest->name);
+						ServerInstance->SNO.WriteToSnoMask('b', "Possible Flooder {}[{}@{}] on {} target: {}",
+								user->nick, user->GetBanUser(false), user->GetDisplayedHost(), user->server->GetName(), dest->name);
 						break;
 
 					case MsgFloodAction::KICK_BAN:
 						CreateBan(dest, user, false);
 						dest->KickUser(ServerInstance->FakeClient, user, msg);
-						ServerInstance->SNO.WriteToSnoMask('a', "Possible Flooder {} target: {}",
-								user->nick, dest->name);
+						ServerInstance->SNO.WriteToSnoMask('b', "Possible Flooder {}[{}@{}] on {} target: {}",
+								user->nick, user->GetBanUser(false), user->GetDisplayedHost(), user->server->GetName(), dest->name);
 						break;
 
 					case MsgFloodAction::MUTE:
 						InformUser(dest, user, msg);
 						CreateBan(dest, user, true);
-						ServerInstance->SNO.WriteToSnoMask('a', "Possible Flooder {} target: {}",
-								user->nick, dest->name);
+						ServerInstance->SNO.WriteToSnoMask('b', "Possible Flooder {}[{}@{}] on {} target: {}",
+								user->nick, user->GetBanUser(false), user->GetDisplayedHost(), user->server->GetName(), dest->name);
 						break;
 				}
 
@@ -358,6 +357,7 @@ public:
 	{
 		// we want to be after all modules that might deny the message (e.g. m_muteban, m_noctcp, m_blockcolor, etc.)
 		ServerInstance->Modules.SetPriority(this, I_OnUserPreMessage, PRIORITY_LAST);
+		ServerInstance->SNO.EnableSnomask('b', "NOTICE");
 	}
 };
 
