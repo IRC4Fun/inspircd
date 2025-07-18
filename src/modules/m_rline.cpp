@@ -31,8 +31,12 @@
 #include "timeutils.h"
 #include "xline.h"
 
-static bool ZlineOnMatch = false;
-static bool added_zline = false;
+namespace
+{
+	bool addedzline = false;
+	bool useflags = false;
+	bool zlineonmatch = false;
+}
 
 class RLine final
 	: public XLine
@@ -45,7 +49,7 @@ public:
 		/* This can throw on failure, but if it does we DONT catch it here, we catch it and display it
 		 * where the object is created, we might not ALWAYS want it to output stuff to snomask x all the time
 		 */
-		regex = rxfactory->Create(regexs);
+		regex = useflags ? rxfactory->CreateHuman(regexs) : rxfactory->Create(regexs);
 	}
 
 	bool Matches(User* u) const override
@@ -66,7 +70,7 @@ public:
 
 	void Apply(User* u) override
 	{
-		if (ZlineOnMatch)
+		if (zlineonmatch)
 		{
 			auto* zl = new ZLine(ServerInstance->Time(), duration ? expiry - ServerInstance->Time() : 0, MODNAME "@" + ServerInstance->Config->ServerName, reason, u->GetAddress());
 			if (ServerInstance->XLines->AddLine(zl, nullptr))
@@ -82,7 +86,7 @@ public:
 						zl->source, u->GetAddress(), Duration::ToLongString(zl->duration),
 						Time::ToString(zl->duration), zl->reason);
 				}
-				added_zline = true;
+				addedzline = true;
 			}
 			else
 				delete zl;
@@ -220,7 +224,7 @@ private:
 	Regex::EngineReference rxfactory;
 	RLineFactory f;
 	CommandRLine r;
-	bool MatchOnNickChange;
+	bool matchonnickchange;
 	bool initing = true;
 	Regex::Engine* factory;
 
@@ -254,6 +258,9 @@ public:
 		}
 		else
 			data["regex"] = "broken";
+
+		if (useflags)
+			data["flags"];
 	}
 
 	ModResult OnUserRegister(LocalUser* user) override
@@ -274,10 +281,11 @@ public:
 	{
 		const auto& tag = ServerInstance->Config->ConfValue("rline");
 
-		MatchOnNickChange = tag->getBool("matchonnickchange");
-		ZlineOnMatch = tag->getBool("zlineonmatch");
-		std::string newrxengine = tag->getString("engine");
+		matchonnickchange = tag->getBool("matchonnickchange");
+		useflags = tag->getBool("useflags");
+		zlineonmatch = tag->getBool("zlineonmatch");
 
+		std::string newrxengine = tag->getString("engine");
 		factory = rxfactory ? (rxfactory.operator->()) : nullptr;
 
 		rxfactory.SetEngine(newrxengine);
@@ -313,7 +321,7 @@ public:
 		if (!IS_LOCAL(user))
 			return;
 
-		if (!MatchOnNickChange)
+		if (!matchonnickchange)
 			return;
 
 		XLine* rl = ServerInstance->XLines->MatchesLine("R", user);
@@ -327,9 +335,9 @@ public:
 
 	void OnBackgroundTimer(time_t curtime) override
 	{
-		if (added_zline)
+		if (addedzline)
 		{
-			added_zline = false;
+			addedzline = false;
 			ServerInstance->XLines->ApplyLines();
 		}
 	}
