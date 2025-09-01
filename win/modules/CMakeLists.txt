@@ -1,7 +1,7 @@
 #
 # InspIRCd -- Internet Relay Chat Daemon
 #
-#   Copyright (C) 2021-2024 Sadie Powell <sadie@witchery.services>
+#   Copyright (C) 2021-2023, 2025 Sadie Powell <sadie@witchery.services>
 #   Copyright (C) 2013-2014 Attila Molnar <attilamolnar@hush.com>
 #   Copyright (C) 2013 Adam <Adam@anope.org>
 #
@@ -53,6 +53,7 @@ if(DEFINED CMAKE_TOOLCHAIN_FILE)
 	enable_extra("regex_pcre2" "PCRE2" "pcre2::pcre2")
 	enable_extra("regex_posix" "PCRE2" "pcre2::pcre2")
 	enable_extra("regex_re2" "re2" "re2::re2")
+	enable_extra("regex_tre" "tre" "tre::tre")
 	enable_extra("ssl_openssl" "OpenSSL" "openssl::openssl")
 	enable_extra("sqlite3" "SQLite3" "SQLite::SQLite3")
 

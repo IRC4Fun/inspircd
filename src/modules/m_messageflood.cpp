@@ -38,11 +38,22 @@ enum class MsgFloodAction
 	KICK_BAN,
 };
 
+struct MsgFloodData final
+{
+	time_t reset;
+	double messages = 0;
+
+	MsgFloodData(unsigned long period)
+		: reset(ServerInstance->Time() + period)
+	{
+	}
+};
+
 class MsgFloodSettings final
 {
 private:
-	insp::flat_map<User*, double> counters;
-	time_t reset;
+	using CounterMap = insp::flat_map<User*, MsgFloodData>;
+	CounterMap counters;
 
 public:
 	MsgFloodAction action;
@@ -51,8 +62,7 @@ public:
 
 
 	MsgFloodSettings(MsgFloodAction a, unsigned int m, unsigned long p)
-		: reset(ServerInstance->Time() + p)
-		, action(a)
+		: action(a)
 		, messages(m)
 		, period(p)
 	{
@@ -60,19 +70,29 @@ public:
 
 	bool Add(User* who, double weight)
 	{
-		if (ServerInstance->Time() > reset)
-		{
-			counters.clear();
-			reset = ServerInstance->Time() + period;
-		}
+		auto it = Find(who);
+		if (it == counters.end())
+			it = counters.emplace(who, MsgFloodData(period)).first;
 
-		counters[who] += weight;
-		return (counters[who] >= this->messages);
+		it->second.messages += weight;
+		return (it->second.messages >= this->messages);
 	}
 
-	void Clear(User* who)
+	CounterMap::iterator Find(User* who)
 	{
-		counters.erase(who);
+		CounterMap::iterator ret = counters.end();
+		for (auto it = counters.begin(); it != counters.end(); )
+		{
+			if (it->second.reset <= ServerInstance->Time())
+				it = counters.erase(it);
+			else
+			{
+				if (it->first == who)
+					ret = it;
+				it++;
+			}
+		}
+		return ret;
 	}
 };
 
@@ -263,7 +283,7 @@ public:
 		notice = tag->getNum<double>("notice", 1.0);
 		privmsg = tag->getNum<double>("privmsg", 1.0);
 		tagmsg = tag->getNum<double>("tagmsg", 0.2);
-		message = tag->getString("message", "Message flood detected (trigger is %messages% messages in %duration%)", 1);
+		message = tag->getString("message", "Message flood detected (trigger is %messages% messages in %duration.long%)", 1);
 		mf.extended = tag->getBool("extended");
 		mf.SetSyntax();
 	}
@@ -292,14 +312,12 @@ public:
 		{
 			if (f->Add(user, weight))
 			{
-				/* You're outttta here! */
-				f->Clear(user);
-
 				const std::string msg = Template::Replace(message, {
-					{ "channel",  dest->name                    },
-					{ "duration", Duration::ToString(f->period) },
-					{ "messages", ConvToStr(f->messages)        },
-					{ "seconds",  ConvToStr(f->period)          },
+					{ "channel",       dest->name                        },
+					{ "duration",      Duration::ToString(f->period)     },
+					{ "duration.long", Duration::ToLongString(f->period) },
+					{ "messages",      ConvToStr(f->messages)            },
+					{ "seconds",       ConvToStr(f->period)              },
 				});
 				switch (f->action)
 				{

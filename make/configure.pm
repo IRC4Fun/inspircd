@@ -3,7 +3,7 @@
 #
 #   Copyright (C) 2024 satmd <satmd@satmd.de>
 #   Copyright (C) 2020 Nicole Kleinhoff <ilbelkyr@shalture.org>
-#   Copyright (C) 2013-2022, 2024 Sadie Powell <sadie@witchery.services>
+#   Copyright (C) 2013-2022, 2024-2025 Sadie Powell <sadie@witchery.services>
 #   Copyright (C) 2012 Robby <robby@chatbelgie.be>
 #   Copyright (C) 2007-2008 Craig Edwards <brain@inspircd.org>
 #
@@ -289,22 +289,31 @@ sub parse_templates($$$) {
 				}
 			}
 
-			# Does this line match a directive?
+			# Does this line match a command?
 			if ($line =~ /^(\s*)%(\w+)\s+(.+)$/) {
-				if ($2 eq 'define') {
-					if ($settings{$3}) {
-						push @lines, "#$1define $3";
+				my ($indent, $name, $value) = ($1, $2, $3);
+				if ($name eq 'define') {
+					if ($settings{$value}) {
+						push @lines, "#${indent}define $value";
 					} else {
-						push @lines, "#$1undef $3";
+						push @lines, "#${indent}undef $value";
 					}
-				} elsif ($2 eq 'mode') {
-					$mode = oct $3;
-				} elsif ($2 eq 'platform') {
-					push @platforms, $3;
-				} elsif ($2 eq 'target') {
-					push @targets, catfile CONFIGURE_ROOT, $3;
+				} elsif ($name eq 'ifdef') {
+					if ($value =~ /^(\S+)\s+(.+)/ && $settings{$1}) {
+						push @lines, $indent . $2;
+					}
+				} elsif ($name eq 'ifndef') {
+					if ($value =~ /^(\S+)\s+(.+)/ && !$settings{$1}) {
+						push @lines, $indent . $2;
+					}
+				} elsif ($name eq 'mode') {
+					$mode = oct $value;
+				} elsif ($name eq 'platform') {
+					push @platforms, $value;
+				} elsif ($name eq 'target') {
+					push @targets, catfile CONFIGURE_ROOT, $value;
 				} else {
-					print_warning "unknown template command '$2' in $template!";
+					print_warning "unknown template command '$name' in $template!";
 					push @lines, $line;
 				}
 				next;
