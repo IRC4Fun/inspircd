@@ -3,6 +3,7 @@ set -e
 
 # The location your renewal tool places your certificates.
 CERT_DIR="/home/ircd/ssl/irc4fun.net/staffdocs"
+CERTTOOL="/home/ircd/ssl"
 
 # The location of the InspIRCd config directory.
 INSPIRCD_CONFIG_DIR="/home/ircd/inspircd4/run/conf"
@@ -15,6 +16,8 @@ INSPIRCD_OWNER="ircd:ircd"
 
 # Script to download the new SSL certs  -siniStar
 #
+
+cd "${CERTTOOL}"
 
 wget -r --user USERNAME --password PASSWORD https://irc4fun.net/staffdocs/fullchain.pem
 wget -r --user USERNAME --password PASSWORD https://irc4fun.net/staffdocs/privkey.pem
