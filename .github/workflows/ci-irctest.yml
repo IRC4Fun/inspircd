@@ -101,7 +101,7 @@ jobs:
 
       - name: Checkout Atheme
         if: matrix.services == 'atheme'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: atheme
           ref: master

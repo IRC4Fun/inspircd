@@ -78,9 +78,16 @@ public:
 		return (it->second.messages >= this->messages);
 	}
 
+	void Clear(User* who)
+	{
+		counters.erase(who);
+	}
+
+
 	CounterMap::iterator Find(User* who)
 	{
-		CounterMap::iterator ret = counters.end();
+		auto found = false;
+		CounterMap::iterator ret;
 		for (auto it = counters.begin(); it != counters.end(); )
 		{
 			if (it->second.reset <= ServerInstance->Time())
@@ -88,11 +95,14 @@ public:
 			else
 			{
 				if (it->first == who)
+				{
+					found = true;
 					ret = it;
+				}
 				it++;
 			}
 		}
-		return ret;
+		return found ? ret : counters.end();
 	}
 };
 
@@ -244,6 +254,7 @@ private:
 	double notice;
 	double privmsg;
 	double tagmsg;
+	bool resetonhit;
 	std::string message;
 
 	void CreateBan(Channel* channel, User* user, bool mute)
@@ -282,9 +293,10 @@ public:
 		const auto& tag = ServerInstance->Config->ConfValue("messageflood");
 		notice = tag->getNum<double>("notice", 1.0);
 		privmsg = tag->getNum<double>("privmsg", 1.0);
-		tagmsg = tag->getNum<double>("tagmsg", 0.2);
+		tagmsg = tag->getNum<double>("tagmsg", 0.1);
 		message = tag->getString("message", "Message flood detected (trigger is %messages% messages in %duration.long%)", 1);
 		mf.extended = tag->getBool("extended");
+		resetonhit = tag->getBool("resetonhit", !mf.extended);
 		mf.SetSyntax();
 	}
 
@@ -326,6 +338,8 @@ public:
 						CreateBan(dest, user, false);
 						ServerInstance->SNO.WriteToSnoMask('b', "Possible Flooder {}[{}] on {} target: {}",
 								user->nick, user->GetRealUserHost(), user->server->GetName(), dest->name);
+						if (resetonhit)
+							f->Clear(user);
 						break;
 
 					case MsgFloodAction::BLOCK:
@@ -338,6 +352,8 @@ public:
 						dest->KickUser(ServerInstance->FakeClient, user, msg);
 						ServerInstance->SNO.WriteToSnoMask('b', "Possible Flooder {}[{}] on {} target: {}",
 								user->nick, user->GetRealUserHost(), user->server->GetName(), dest->name);
+						if (resetonhit)
+							f->Clear(user);
 						break;
 
 					case MsgFloodAction::KICK_BAN:
@@ -345,6 +361,8 @@ public:
 						dest->KickUser(ServerInstance->FakeClient, user, msg);
 						ServerInstance->SNO.WriteToSnoMask('b', "Possible Flooder {}[{}] on {} target: {}",
 								user->nick, user->GetRealUserHost(), user->server->GetName(), dest->name);
+						if (resetonhit)
+							f->Clear(user);
 						break;
 
 					case MsgFloodAction::MUTE:
@@ -352,6 +370,8 @@ public:
 						CreateBan(dest, user, true);
 						ServerInstance->SNO.WriteToSnoMask('b', "Possible Flooder {}[{}] on {} target: {}",
 								user->nick, user->GetRealUserHost(), user->server->GetName(), dest->name);
+						if (resetonhit)
+							f->Clear(user);
 						break;
 				}
 
