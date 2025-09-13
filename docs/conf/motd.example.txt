@@ -56,7 +56,8 @@ this server.
  or automatically via SASL.
 
 🗨️ CHANNELS:
-🔴 #Asylum - Official support channel for this server
-🔴 #Help - Official IRC4Fun Network & Services Help
-🔴 #IRC4Fun - Official IRC4Fun Chat
-🔴 #MultiRPG - Multi-network Idle RPG (w/ commands!)
+🔸 #Asylum - Official support channel for this server
+🔸 #Help - Official IRC4Fun Network & Services Help
+🔸 #IRC4Fun - Official IRC4Fun Chat
+🔸 #MultiRPG - Multi-network Idle RPG (w/ commands!)
+ You can get a List of Channels by typing: /LIST 
