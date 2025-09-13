@@ -1,37 +1,62 @@
- _____                        _____   _____    _____      _
-|_   _|                      |_   _| |  __ \  / ____|    | |
-  | |    _ __    ___   _ __    | |   | |__) || |       __| |
-  | |   | '_ \  / __| | '_ \   | |   |  _  / | |      / _` |
- _| |_  | | | | \__ \ | |_) | _| |_  | | \ \ | |____ | (_| |
-|_____| |_| |_| |___/ | .__/ |_____| |_|  \_\ \_____| \__,_|
- _____________________| |__________________________________
-|_____________________|_|__________________________________|
 
-                         \iThe IRC server for the 31st century\x
+  _____ _____   _____ _  _   ______
+ |_   _|  __ \ / ____| || | |  ____|
+   | | | |__) | |    | || |_| |__ _   _ _ __
+   | | |  _  /| |    |__   _|  __| | | | '_ \
+  _| |_| | \ \| |____   | | | |  | |_| | | | |
+ |_____|_|  \_\\_____|  |_| |_|   \__,_|_| |_|
 
-       /\     /\
-      {  `---'  }  \bWELCOME TO AN \c13I\c04N\c07S\c08P\c03I\c10R\c12C\c06D\c99 NETWORK\x
-      {  O   O  }
-      ~~>  V  <~~    If you see this, I'm probably new.
-       \  \|/  /       If I'm not new, my owner is lazy. ;-)
-        `-----'____
-        /     \    \_
-       {       }\  )_\_   _
-       |  \_/  |/ /  \_\_/ )
-        \__/  /(_/     \__/
-          (__/
 
-      +---- To change this see \bmotd.example.txt\x ----+
-      |                                             |
-      |   * \bWeb:\x https://www.inspircd.org           |
-      |   * \bIRC:\x ircs://irc.teranova.net/inspircd   |
-      |   * \bDocs:\x https://docs.inspircd.org         |
-      |   * \bIssues:\x https://git.io/JIuYi            |
-      |   * \bDiscussions:\x https://git.io/JIuYv       |
-      |                                             |
-      | We hope you like this software.  Please do  |
-      | make sure to customise your configuration,  |
-      | though, so you love it.  Enjoy.             |
-      |                                             |
-      |                        -- The InspIRCd Team |
-      +---------------------------------------------+
+ irc.IRC4Fun.net (Ports 6667 Plaintext, Port 6697 SSL)
+https://www.IRC4Fun.net
+         IPv6 & SSL CONNECTIONS SUPPORTED
+------------------------------------------------------------
+
+Welcome to the IRC4Fun IRC Network, proudly operating
+Internationally since 2007!
+
+⚠️ DISCLAIMER:
+The administration of the IRC4Fun does not log or monitor
+any traffic that may pass through their servers for content
+or clarity. By retaining a connection to any part of IRC4Fun,
+you state that you know and are willing to comply and accept
+these as well as any future terms of service, network policies,
+and user guidelines.
+
+No responsibility for computer damage, data loss, or any other
+damage or liability shall be implied by any IRC4Fun server
+administrator, staff or volunteers. By using any IRC4Fun server,
+you hereby state and agree that you release IRC4Fun, its servers,
+administrators, operators, and any other volunteer of IRC4Fun
+from all responsibility or legal liability which might result
+from your use of IRC4Fun servers.
+
+📌 NOTICE:
+When connecting to IRC4Fun, you will be scanned for any insecure
+or open proxies, as well as DNS Blacklist scans.
+
+🌐 NETWORK POLICIES:
+* You also agree to be bound by the IRC4Fun Acceptable Use Policy
+at https://irc4fun.net/policies/aup/ as well as any Server
+Policies indicated in this Message of the Day (MOTD)
+
+🛑 SERVER RULES:
+* No Flooding, Spamming, Mass Advertising or other abusive
+actions.
+
+🥂 *Bots that do not cause disturbances or violate the network
+policies are allowed on this server.  Any bots that cause
+disturbances or that are broken, will be killed or removed from
+this server.
+
+🤖 SERVICES:
+* We offer NickServ, ChanServ, MemoServ, & BotServ.
+* You can use shortcuts such as /NS to securely message NickServ
+* VHosts are applied automatically as you IDENTIFY with NickServ
+ or automatically via SASL.
+
+🗨️ CHANNELS:
+🔴 #Asylum - Official support channel for this server
+🔴 #Help - Official IRC4Fun Network & Services Help
+🔴 #IRC4Fun - Official IRC4Fun Chat
+🔴 #MultiRPG - Multi-network Idle RPG (w/ commands!)
