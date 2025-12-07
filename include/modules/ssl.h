@@ -2,9 +2,8 @@
  * InspIRCd -- Internet Relay Chat Daemon
  *
  *   Copyright (C) 2020 Matt Schatz <genius3000@g3k.solutions>
- *   Copyright (C) 2019 B00mX0r <b00mx0r@aureus.pw>
- *   Copyright (C) 2018 Dylan Frank <b00mx0r@aureus.pw>
- *   Copyright (C) 2013, 2017-2024 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2018-2019 Dylan Frank <b00mx0r@aureus.pw>
+ *   Copyright (C) 2013, 2017-2025 Sadie Powell <sadie@witchery.services>
  *   Copyright (C) 2013, 2015-2016 Attila Molnar <attilamolnar@hush.com>
  *   Copyright (C) 2012 Robby <robby@chatbelgie.be>
  *   Copyright (C) 2009-2010 Daniel De Graaf <danieldg@inspircd.org>
@@ -289,6 +288,7 @@ public:
 	 * @param sock The socket to get the certificate from, the socket does not have to use TLS
 	 * @return The TLS client certificate information, NULL if the peer is not using TLS
 	 */
+	[[deprecated("Use SSLIOHook::IsSSL()->GetCertificate() instead")]]
 	static ssl_cert* GetCertificate(StreamSocket* sock)
 	{
 		SSLIOHook* ssliohook = SSLIOHook::IsSSL(sock);
@@ -305,12 +305,18 @@ public:
 	 * @return The key fingerprint from the TLS certificate sent by the peer,
 	 * empty if no cert was sent or the peer is not using TLS
 	 */
+	[[deprecated("Use SSLIOHook::IsSSL()->GetFingerprint() instead")]]
 	static std::string GetFingerprint(StreamSocket* sock)
 	{
-		ssl_cert* cert = SSLClientCert::GetCertificate(sock);
-		if (cert)
-			return cert->GetFingerprint();
-		return "";
+		auto* ssliohook = SSLIOHook::IsSSL(sock);
+		if (!ssliohook)
+			return nullptr;
+
+		auto* cert = ssliohook->GetCertificate();
+		if (!cert || !cert->IsUsable())
+			return "";
+
+		return cert->GetFingerprint();
 	}
 };
 
@@ -348,7 +354,7 @@ public:
 	std::string GetFingerprint(User* user)
 	{
 		ssl_cert* cert = GetCertificate(user);
-		if (cert)
+		if (cert && cert->IsUsable())
 			return cert->GetFingerprint();
 		return "";
 	}
@@ -361,7 +367,7 @@ public:
 	std::vector<std::string> GetFingerprints(User* user)
 	{
 		ssl_cert* cert = GetCertificate(user);
-		if (cert)
+		if (cert && cert->IsUsable())
 			return cert->GetFingerprints();
 		return {};
 	}

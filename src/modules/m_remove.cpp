@@ -1,8 +1,8 @@
 /*
  * InspIRCd -- Internet Relay Chat Daemon
  *
- *   Copyright (C) 2017 B00mX0r <b00mx0r@aureus.pw>
- *   Copyright (C) 2013, 2018-2024 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2017 Dylan Frank <b00mx0r@aureus.pw>
+ *   Copyright (C) 2013, 2018-2025 Sadie Powell <sadie@witchery.services>
  *   Copyright (C) 2012-2014 Attila Molnar <attilamolnar@hush.com>
  *   Copyright (C) 2012 Robby <robby@chatbelgie.be>
  *   Copyright (C) 2012 Justin Crawford <Justasic@Gmail.com>
@@ -54,7 +54,7 @@ public:
 	CmdResult Handle(User* user, const CommandBase::Params& parameters) override
 	{
 		// Keep compatibility with v3 servers by allowing them to send removes with the old order.
-		bool neworder = !IS_LOCAL(user) && ServerInstance->Channels.IsPrefix(parameters[0][0]);
+		const auto neworder = IS_LOCAL(user) || ServerInstance->Channels.IsPrefix(parameters[0][0]);
 		const std::string& channame = parameters[neworder ? 0 : 1];
 		const std::string& username = parameters[neworder ? 1 : 0];
 
