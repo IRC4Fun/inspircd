@@ -201,8 +201,6 @@ public:
 		{
 			// Channel is banned.
 			user->WriteNumeric(ERR_BADCHANNEL, cname, INSP_FORMAT("Channel {} is CBANed: {}", cname, rl->reason));
-			ServerInstance->SNO.WriteGlobalSno('a', "{} tried to join {} which is CBANed ({})",
-				user->nick, cname, rl->reason);
 			return MOD_RES_DENY;
 		}
 
