@@ -19,8 +19,8 @@ INSPIRCD_OWNER="ircd:ircd"
 
 cd "${CERTTOOL}"
 
-wget -r --user USERNAME --password PASSWORD https://irc4fun.net/staffdocs/fullchain.pem
-wget -r --user USERNAME --password PASSWORD https://irc4fun.net/staffdocs/privkey.pem
+wget -r https://irc4fun.net/staffdocs/fullchain.pem
+wget -r https://irc4fun.net/staffdocs/privkey.pem
 
 # Script to extract new SSL certs pulled in from secure site
 #
