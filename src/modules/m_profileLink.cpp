@@ -74,7 +74,7 @@ public:
 			// Construct the profile URL using the user's account name.
 			const std::string profileUrl = profileBaseUrl + *account;
 			// Send the profile URL in the WHOIS response.
-			whois.SendLine(RPL_WHOISPROFILE, "*", "Profil: " + profileUrl);
+			whois.SendLine(RPL_WHOISPROFILE, "*", "Profile: " + profileUrl);
 		}
 		else
 		{
