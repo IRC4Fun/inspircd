@@ -241,14 +241,11 @@ private:
 	{
 		if (persistusers && usermeta && accountapi)
 		{
-			std::unordered_set<std::string> seenaccounts;
 			for (const auto& [_, user] : ServerInstance->Users.GetUsers())
 			{
 				const std::string* accountname = accountapi->GetAccountName(user);
 				if (!accountname || accountname->empty())
 					continue;
-
-				seenaccounts.insert(*accountname);
 
 				const std::string internal = GetInternal(user, usermeta);
 				auto it = userdb.find(*accountname);
@@ -278,9 +275,6 @@ private:
 				}
 			}
 
-			// Remove entries for accounts that are no longer online if they have no persisted data.
-			// We keep offline accounts in the DB so metadata persists across reconnects.
-			(void)seenaccounts;
 		}
 
 		if (persistchans != ChanPolicy::NONE && chanmeta)
@@ -589,18 +583,18 @@ private:
 		}
 
 #ifdef _WIN32
-	remove(dbpath.c_str());
+		remove(dbpath.c_str());
 #endif
-	if (rename(newpath.c_str(), dbpath.c_str()) < 0)
-	{
-		ServerInstance->Logs.Critical(MODNAME, "Cannot replace old database \"{}\" with new database \"{}\"! {} ({})", dbpath, newpath, strerror(errno), errno);
-		ServerInstance->SNO.WriteToSnoMask('a', "database: cannot replace old ircv3 metadata db \"{}\" with new db \"{}\": {} ({})", dbpath, newpath, strerror(errno), errno);
+		if (rename(newpath.c_str(), dbpath.c_str()) < 0)
+		{
+			ServerInstance->Logs.Critical(MODNAME, "Cannot replace old database \"{}\" with new database \"{}\"! {} ({})", dbpath, newpath, strerror(errno), errno);
+			ServerInstance->SNO.WriteToSnoMask('a', "database: cannot replace old ircv3 metadata db \"{}\" with new db \"{}\": {} ({})", dbpath, newpath, strerror(errno), errno);
 			std::error_code ec;
 			std::filesystem::remove(newpath, ec);
-		return false;
-	}
+			return false;
+		}
 
-	return true;
+		return true;
 	}
 
 public:
@@ -696,6 +690,28 @@ public:
 
 		if (!account.empty())
 			ApplyUserIfPresent(user, account);
+	}
+
+	void OnMode(User* user, User* usertarget, Channel* chantarget, const Modes::ChangeList& changelist, ModeParser::ModeProcessFlag processflags) override
+	{
+		// When +P is set on a channel, apply any persisted metadata from the DB.
+		if (!chantarget || persistchans != ChanPolicy::PERMANENT)
+			return;
+
+		ModeHandler* pm = ServerInstance->Modes.FindMode('P', MODETYPE_CHANNEL);
+		if (!pm)
+			return;
+
+		for (const auto& change : changelist.getlist())
+		{
+			if (change.mh == pm && change.adding)
+			{
+				auto it = chandb.find(chantarget->name);
+				if (it != chandb.end())
+					ApplyChannelIfPresent(chantarget->name, it->second);
+				return;
+			}
+		}
 	}
 
 	void OnLoadModule(Module* mod) override
@@ -805,3 +821,4 @@ public:
 };
 
 MODULE_INIT(ModuleIRCv3MetadataDB)
+
