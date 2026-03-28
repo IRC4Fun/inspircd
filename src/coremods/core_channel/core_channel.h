@@ -121,7 +121,6 @@ class ModeChannelKey final
 	: public ParamMode<ModeChannelKey, StringExtItem>
 {
 public:
-	std::string::size_type maxkeylen;
 	ModeChannelKey(Module* Creator);
 	bool OnModeChange(User* source, User* dest, Channel* channel, Modes::Change& change) override;
 	void SerializeParam(Channel* chan, const std::string* key, std::string& out);
@@ -182,5 +181,6 @@ public:
 	ModResult GetStatus(ExtBan::ActingBase* extban, User* user, Channel* channel) const override;
 	ExtBan::Base* FindName(const std::string& name) const override;
 	ExtBan::Base* FindLetter(ExtBan::Letter letter) const override;
+	ExtBan::Comparison Validate(ListModeBase* lm, LocalUser* user, Channel* channel, std::string& text) const override;
 	void BuildISupport(std::string& out);
 };
