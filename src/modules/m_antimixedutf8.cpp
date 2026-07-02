@@ -335,7 +335,7 @@ public:
 
 		if (irc::equals(action, "block"))
 		{
-			const std::string msg = "Oups ! Votre message contient des caractères mélangés souvent utilisés par les spams. Réécrivez-le simplement et réessayez. 🙂";
+			const std::string msg = "Oops! Your message contains mixed characters often used by spam. Please re-type it and try again. 🙂";
 			if (target.type == MessageTarget::TYPE_CHANNEL)
 				luser->WriteNumeric(Numerics::CannotSendTo(target.Get<Channel>(), msg));
 			else
