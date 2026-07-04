@@ -1,7 +1,7 @@
 /*
  * InspIRCd -- Internet Relay Chat Daemon
  *
- *   Copyright (C) 2013, 2017-2024 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2013, 2017-2026 Sadie Powell <sadie@sadiepowell.dev>
  *   Copyright (C) 2013 Shawn Smith <ShawnSmith0828@gmail.com>
  *   Copyright (C) 2012-2013 Attila Molnar <attilamolnar@hush.com>
  *   Copyright (C) 2012 Robby <robby@chatbelgie.be>
@@ -192,7 +192,7 @@ public:
 
 	void ReadConfig(ConfigStatus& status) override
 	{
-		const auto fpvisible = ServerInstance->Config->ConfValue("sslmodes")->getBool("operonly");
+		const auto fpvisible = ServerInstance->Config->ConfValue("sslinfo")->getBool("operonly");
 		const auto& tag = ServerInstance->Config->ConfValue("sslmodes");
 		extban.operonly = tag->getBool("extbanoperonly", fpvisible);
 	}

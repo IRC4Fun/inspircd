@@ -2,7 +2,7 @@
  * InspIRCd -- Internet Relay Chat Daemon
  *
  *   Copyright (C) 2021 Herman <GermanAizek@yandex.ru>
- *   Copyright (C) 2018-2025 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2018-2025 Sadie Powell <sadie@sadiepowell.dev>
  *   Copyright (C) 2018 linuxdaemon <linuxdaemon.irc@gmail.com>
  *   Copyright (C) 2014, 2016, 2018 Attila Molnar <attilamolnar@hush.com>
  *
@@ -184,7 +184,7 @@ public:
 		// can't break the API in a stable release. For now we use this and
 		// prioritise it to be after core_user checks whether the user needs
 		// to die.
-		if (user->IsFullyConnected() && !user->quitting)
+		if (!user->quitting)
 			isupport.ChangeClass(user, user->GetClass(), klass);
 	}
 

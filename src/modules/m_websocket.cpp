@@ -3,7 +3,7 @@
  *
  *   Copyright (C) 2021 Dominic Hamon
  *   Copyright (C) 2019 iwalkalone <iwalkalone69@gmail.com>
- *   Copyright (C) 2018-2025 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2018-2026 Sadie Powell <sadie@sadiepowell.dev>
  *   Copyright (C) 2016 Attila Molnar <attilamolnar@hush.com>
  *
  * This file is part of InspIRCd.  InspIRCd is free software: you can
@@ -655,7 +655,7 @@ public:
 		return wsret;
 	}
 
-	bool Ping() override
+	bool Ping(StreamSocket* sock) override
 	{
 		if (!config.nativeping)
 			return false;
@@ -665,6 +665,7 @@ public:
 		const std::string& message = ServerInstance->Config->GetServerName();
 		mysendq.push_back(PrepareSendQElem(message.length(), OP_PING));
 		mysendq.push_back(message);
+		SocketEngine::ChangeEventMask(sock, FD_ADD_TRIAL_WRITE);
 
 		return true;
 	}
@@ -718,6 +719,12 @@ public:
 			const std::string allow = tag->getString("allow");
 			if (allow.empty())
 				throw ModuleException(this, "<wsorigin:allow> is a mandatory field, at " + tag->source.str());
+
+			if (insp::equalsci(allow, "*") || insp::equalsci(allow, "http://*") || insp::equalsci(allow, "https://*"))
+			{
+				ServerInstance->Logs.Warning(MODNAME, "<wsorigin> tag for {} at {} allows any website to connect to your server, this puts you at risk of web-based spam attacks!",
+					allow, tag->source.str());
+			}
 
 			config.allowedorigins.push_back(allow);
 		}

@@ -1,7 +1,7 @@
 /*
  * InspIRCd -- Internet Relay Chat Daemon
  *
- *   Copyright (C) 2022-2025 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2022-2026 Sadie Powell <sadie@sadiepowell.dev>
  *
  * This file is part of InspIRCd.  InspIRCd is free software: you can
  * redistribute it and/or modify it under the terms of the GNU General Public
@@ -105,13 +105,13 @@ public:
 		yyjson_mut_doc_set_root(doc, root);
 
 		auto error = false;
-		error |= yyjson_mut_obj_add_strn(doc, root, "time", timestr.c_str(), timestr.length());
-		error |= yyjson_mut_obj_add_strn(doc, root, "type", type.c_str(), type.length());
-		error |= yyjson_mut_obj_add_strn(doc, root, "level", levelstr, strlen(levelstr));
-		error |= yyjson_mut_obj_add_strn(doc, root, "message", message.c_str(), message.length());
+		error |= !yyjson_mut_obj_add_strn(doc, root, "time", timestr.c_str(), timestr.length());
+		error |= !yyjson_mut_obj_add_strn(doc, root, "type", type.c_str(), type.length());
+		error |= !yyjson_mut_obj_add_strn(doc, root, "level", levelstr, strlen(levelstr));
+		error |= !yyjson_mut_obj_add_strn(doc, root, "message", message.c_str(), message.length());
 
 		yyjson_write_err errmsg;
-		error |= yyjson_mut_write_fp(file, doc, YYJSON_WRITE_ALLOW_INVALID_UNICODE | YYJSON_WRITE_NEWLINE_AT_END, nullptr, &errmsg);
+		error |= !yyjson_mut_write_fp(file, doc, YYJSON_WRITE_ALLOW_INVALID_UNICODE | YYJSON_WRITE_NEWLINE_AT_END, nullptr, &errmsg);
 
 		yyjson_mut_doc_free(doc);
 

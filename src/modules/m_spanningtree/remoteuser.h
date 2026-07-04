@@ -1,7 +1,7 @@
 /*
  * InspIRCd -- Internet Relay Chat Daemon
  *
- *   Copyright (C) 2019, 2021 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2019, 2021 Sadie Powell <sadie@sadiepowell.dev>
  *   Copyright (C) 2016 Attila Molnar <attilamolnar@hush.com>
  *
  * This file is part of InspIRCd.  InspIRCd is free software: you can
@@ -31,4 +31,5 @@ class SpanningTree::RemoteUser final
 public:
 	RemoteUser(const std::string& uid, Server* srv);
 	void WriteRemoteNumeric(const Numeric::Numeric& numeric) override;
+	void WriteRemoteNumeric(const std::vector<Numeric::Numeric>& numeric) override;
 };

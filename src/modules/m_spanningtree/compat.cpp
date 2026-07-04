@@ -1,7 +1,7 @@
 /*
  * InspIRCd -- Internet Relay Chat Daemon
  *
- *   Copyright (C) 2021, 2024-2025 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2021, 2024-2026 Sadie Powell <sadie@sadiepowell.dev>
  *
  * This file is part of InspIRCd.  InspIRCd is free software: you can
  * redistribute it and/or modify it under the terms of the GNU General Public
@@ -148,7 +148,7 @@ void TreeSocket::WriteLine(const std::string& original_line)
 					if (lastpos != std::string::npos)
 					{
 						WriteLineInternal(line.substr(0, lastpos));
-						line.erase(modesend, lastpos - modesend);
+						line.erase(modesend + 2, lastpos - modesend - 1);
 					}
 				}
 			}

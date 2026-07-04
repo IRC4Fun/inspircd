@@ -2,7 +2,7 @@
  * InspIRCd -- Internet Relay Chat Daemon
  *
  *   Copyright (C) 2019 linuxdaemon <linuxdaemon.irc@gmail.com>
- *   Copyright (C) 2018-2025 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2018-2026 Sadie Powell <sadie@sadiepowell.dev>
  *
  * This file is part of InspIRCd.  InspIRCd is free software: you can
  * redistribute it and/or modify it under the terms of the GNU General Public
@@ -334,6 +334,7 @@ public:
 		{ "+draft/reply",           ValidateMessageId }, // https://ircv3.net/specs/client-tags/reply
 		{ "+draft/unreact",         ValidateReaction  }, // https://ircv3.net/specs/client-tags/react
 
+		{ "+channel-context",       ValidateChannel   }, // https://ircv3.net/specs/client-tags/channel-context
 		{ "+reply",                 ValidateMessageId }, // https://ircv3.net/specs/client-tags/reply
 		{ "+typing",                ValidateTyping    }, // https://ircv3.net/specs/client-tags/typing
 	};
@@ -465,7 +466,7 @@ public:
 			if (no_chan_priv && chan->IsModeSet(moderatedmode))
 			{
 				// The moderated mode is set and the user has no status rank.
-				user->WriteNumeric(Numerics::CannotSendTo(chan, "messages", *noextmsgmode));
+				user->WriteNumeric(Numerics::CannotSendTo(chan, "messages", *moderatedmode));
 				return MOD_RES_DENY;
 			}
 

@@ -1,7 +1,7 @@
 /*
  * InspIRCd -- Internet Relay Chat Daemon
  *
- *   Copyright (C) 2020-2025 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2020-2026 Sadie Powell <sadie@sadiepowell.dev>
  *
  * This file is part of InspIRCd.  InspIRCd is free software: you can
  * redistribute it and/or modify it under the terms of the GNU General Public
@@ -46,7 +46,8 @@ namespace
 }
 
 ISupportManager::ISupportManager(Module* mod)
-	: isupportevprov(mod)
+	: ISupport::APIBase(mod)
+	, isupportevprov(mod)
 {
 }
 
@@ -128,7 +129,8 @@ void ISupportManager::Build()
 		for (LocalUser* user : ServerInstance->Users.GetLocalUsers())
 		{
 			const auto& klass = user->GetClass();
-			if (!(user->connected & User::CONN_FULL))
+			auto modres = isupportevprov.FirstResult(&ISupport::EventListener::OnSendISupportDiff, user, newtokens[klass]);
+			if (!modres.check(user->IsFullyConnected()))
 				continue; // User hasn't received 005 yet.
 
 			auto numerics = diffnumerics.find(klass);
@@ -145,8 +147,7 @@ void ISupportManager::Build()
 			if (numerics == diffnumerics.end())
 				continue; // Should never happen.
 
-			for (const auto& numeric : numerics->second)
-				user->WriteNumeric(numeric);
+			user->WriteNumeric(numerics->second);
 		}
 	}
 
@@ -185,19 +186,19 @@ void ISupportManager::ChangeClass(LocalUser* user, const std::shared_ptr<Connect
 	ISupport::TokenMap difftokens;
 	TokenDifference(difftokens, oldtokens->second, newtokens->second);
 
+	auto modres = isupportevprov.FirstResult(&ISupport::EventListener::OnSendISupportDiff, user, difftokens);
+	if (!modres.check(user->IsFullyConnected()))
+		return; // User hasn't received 005 yet.
+
 	std::vector<Numeric::Numeric> diffnumerics;
 	BuildNumerics(difftokens, diffnumerics);
 
-	for (const auto& numeric : diffnumerics)
-		user->WriteNumeric(numeric);
+	user->WriteNumeric(diffnumerics);
 }
 
-void ISupportManager::SendTo(LocalUser* user)
+void ISupportManager::SendTo(LocalUser* user) const
 {
 	auto numerics = cachednumerics.find(user->GetClass());
-	if (numerics == cachednumerics.end())
-		return; // Should never happen.
-
-	for (const auto& numeric : numerics->second)
-		user->WriteNumeric(numeric);
+	if (numerics != cachednumerics.end())
+		user->WriteNumeric(numerics->second);
 }

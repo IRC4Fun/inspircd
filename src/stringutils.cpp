@@ -2,7 +2,7 @@
  * InspIRCd -- Internet Relay Chat Daemon
  *
  *   Copyright (C) 2021 Dominic Hamon
- *   Copyright (C) 2017, 2021-2024 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2017, 2021-2024 Sadie Powell <sadie@sadiepowell.dev>
  *   Copyright (C) 2014 Attila Molnar <attilamolnar@hush.com>
  *   Copyright (C) 2012 Robby <robby@chatbelgie.be>
  *   Copyright (C) 2010 Craig Edwards <brain@inspircd.org>
@@ -44,7 +44,7 @@ std::string Percent::Encode(const void* data, size_t length, const char* table, 
 	for (size_t idx = 0; idx < length; ++idx)
 	{
 		unsigned char chr = udata[idx];
-		if (strchr(table, chr))
+		if (memchr(table, chr, strlen(table)))
 		{
 			// The character is on the safe list; push it as is.
 			buffer.push_back(chr);

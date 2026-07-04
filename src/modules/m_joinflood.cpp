@@ -2,7 +2,7 @@
  * InspIRCd -- Internet Relay Chat Daemon
  *
  *   Copyright (C) 2021 Dominic Hamon
- *   Copyright (C) 2016, 2018-2023, 2025 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2016, 2018-2023, 2025-2026 Sadie Powell <sadie@sadiepowell.dev>
  *   Copyright (C) 2012-2014 Attila Molnar <attilamolnar@hush.com>
  *   Copyright (C) 2012 Robby <robby@chatbelgie.be>
  *   Copyright (C) 2009 Daniel De Graaf <danieldg@inspircd.org>
@@ -201,7 +201,7 @@ public:
 				f->clear();
 				f->lock();
 
-				PrefixMode* pm = ServerInstance->Modes.FindNearestPrefixMode(notifyrank);
+				auto* pm = notifyrank ? ServerInstance->Modes.FindNearestPrefixMode(notifyrank) : nullptr;
 				memb->chan->WriteNotice(INSP_FORMAT("This channel has been closed to new users for {} because there have been more than {} joins in {}.",
 					Duration::ToLongString(duration), f->joins, Duration::ToLongString(f->secs)), pm ? pm->GetPrefix() : 0);
 			}

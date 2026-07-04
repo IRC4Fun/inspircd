@@ -3,7 +3,7 @@
  *
  *   Copyright (C) 2019 Matt Schatz <genius3000@g3k.solutions>
  *   Copyright (C) 2012-2016, 2018 Attila Molnar <attilamolnar@hush.com>
- *   Copyright (C) 2012-2013, 2016-2024 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2012-2013, 2016-2024 Sadie Powell <sadie@sadiepowell.dev>
  *   Copyright (C) 2012, 2019 Robby <robby@chatbelgie.be>
  *   Copyright (C) 2012 DjSlash <djslash@djslash.org>
  *   Copyright (C) 2011 jackmcbarn <jackmcbarn@inspircd.org>
@@ -694,6 +694,7 @@ public:
 	 * @param numeric The numeric to send.
 	 */
 	void WriteNumeric(const Numeric::Numeric& numeric);
+	void WriteNumeric(const std::vector<Numeric::Numeric>& numeric);
 
 	/** Sends a notice to this user.
 	 * @param numeric The numeric code to send.
@@ -711,6 +712,7 @@ public:
 	 * @param numeric The numeric to send.
 	 */
 	virtual void WriteRemoteNumeric(const Numeric::Numeric& numeric);
+	virtual void WriteRemoteNumeric(const std::vector<Numeric::Numeric>& numeric);
 
 	/** Sends a notice from the local server to this user.
 	 * @param numeric The numeric code to send.

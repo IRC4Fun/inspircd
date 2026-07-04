@@ -4,7 +4,7 @@
  *   Copyright (C) 2019 linuxdaemon <linuxdaemon.irc@gmail.com>
  *   Copyright (C) 2018 systocrat <systocrat@outlook.com>
  *   Copyright (C) 2018 Dylan Frank <b00mx0r@aureus.pw>
- *   Copyright (C) 2013, 2017-2025 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2013, 2017-2026 Sadie Powell <sadie@sadiepowell.dev>
  *   Copyright (C) 2013 Adam <Adam@anope.org>
  *   Copyright (C) 2012-2016, 2018 Attila Molnar <attilamolnar@hush.com>
  *   Copyright (C) 2012 Robby <robby@chatbelgie.be>
@@ -764,6 +764,7 @@ void LocalUser::Send(ClientProtocol::Event& protoev, ClientProtocol::MessageList
 		if (res != MOD_RES_DENY)
 			Write(serializer->SerializeForUser(this, curr));
 	}
+	protoev.PostSendMessagesToUser(this, msglist);
 }
 
 void User::WriteNumeric(const Numeric::Numeric& numeric)
@@ -773,15 +774,38 @@ void User::WriteNumeric(const Numeric::Numeric& numeric)
 		return;
 
 	ModResult modres;
-
 	FIRST_MOD_RESULT(OnNumeric, modres, (this, numeric));
-
 	if (modres == MOD_RES_DENY)
 		return;
 
 	ClientProtocol::Messages::Numeric numericmsg(numeric, localuser);
 	localuser->Send(ServerInstance->GetRFCEvents().numeric, numericmsg);
 }
+
+void User::WriteNumeric(const std::vector<Numeric::Numeric>& numerics)
+{
+	auto* const lthis = IS_LOCAL(this);
+	if (!lthis)
+		return;
+
+	ClientProtocol::MessageList messages;
+	for (const auto& numeric : numerics)
+	{
+		ModResult modres;
+		FIRST_MOD_RESULT(OnNumeric, modres, (this, numeric));
+		if (modres != MOD_RES_DENY)
+			messages.push_back(new ClientProtocol::Messages::Numeric(numeric, this));
+	}
+
+	if (!messages.empty())
+	{
+		ClientProtocol::Event numericev(ServerInstance->GetRFCEvents().numeric);
+		numericev.SetMessageList(messages);
+		lthis->Send(numericev);
+		stdalgo::delete_all(messages);
+	}
+}
+
 
 void User::WriteRemoteNotice(const std::string& text)
 {
@@ -875,6 +899,11 @@ uint64_t User::ForEachNeighbor(ForEachNeighborHandler& handler, bool include_sel
 void User::WriteRemoteNumeric(const Numeric::Numeric& numeric)
 {
 	WriteNumeric(numeric);
+}
+
+void User::WriteRemoteNumeric(const std::vector<Numeric::Numeric>& numerics)
+{
+	WriteNumeric(numerics);
 }
 
 /* return 0 or 1 depending if users u and u2 share one or more common channels

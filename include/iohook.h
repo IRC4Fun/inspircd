@@ -2,7 +2,7 @@
  * InspIRCd -- Internet Relay Chat Daemon
  *
  *   Copyright (C) 2021 Dominic Hamon
- *   Copyright (C) 2020-2023 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2020-2023 Sadie Powell <sadie@sadiepowell.dev>
  *   Copyright (C) 2019 Robby <robby@chatbelgie.be>
  *   Copyright (C) 2013, 2016 Attila Molnar <attilamolnar@hush.com>
  *
@@ -117,9 +117,10 @@ public:
 	virtual ssize_t OnStreamSocketRead(StreamSocket* sock, std::string& recvq) = 0;
 
 	/** Sends a ping to the remote client to check whether it is still connected.
+	 * @param sock Hooked socket
 	 * @return True if the client was pinged; otherwise, false.
 	 */
-	virtual bool Ping() { return false; }
+	virtual bool Ping(StreamSocket* sock) { return false; }
 };
 
 class IOHookMiddle

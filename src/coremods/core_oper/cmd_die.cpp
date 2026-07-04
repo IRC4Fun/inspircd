@@ -1,7 +1,7 @@
 /*
  * InspIRCd -- Internet Relay Chat Daemon
  *
- *   Copyright (C) 2018-2023 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2018-2023 Sadie Powell <sadie@sadiepowell.dev>
  *   Copyright (C) 2018 linuxdaemon <linuxdaemon.irc@gmail.com>
  *   Copyright (C) 2014-2015, 2018 Attila Molnar <attilamolnar@hush.com>
  *   Copyright (C) 2012 Robby <robby@chatbelgie.be>
@@ -63,7 +63,7 @@ CmdResult CommandDie::Handle(User* user, const Params& parameters)
 		const std::string diebuf = "*** DIE command from " + user->GetMask() + ". Terminating.";
 		ServerInstance->Logs.Critical(MODNAME, diebuf);
 		DieRestart::SendError(diebuf);
-		ServerInstance->Exit(EXIT_FAILURE);
+		ServerInstance->Exit(EXIT_SUCCESS);
 	}
 	return CmdResult::FAILURE;
 }

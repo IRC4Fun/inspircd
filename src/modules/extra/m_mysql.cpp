@@ -4,7 +4,7 @@
  *   Copyright (C) 2021 Dominic Hamon
  *   Copyright (C) 2015 Daniel Vassdal <shutter@canternet.org>
  *   Copyright (C) 2013-2014 Attila Molnar <attilamolnar@hush.com>
- *   Copyright (C) 2013, 2016-2025 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2013, 2016-2026 Sadie Powell <sadie@sadiepowell.dev>
  *   Copyright (C) 2012 Robby <robby@chatbelgie.be>
  *   Copyright (C) 2009-2010 Daniel De Graaf <danieldg@inspircd.org>
  *   Copyright (C) 2009 Uli Schlachter <psychon@znc.in>
@@ -334,9 +334,13 @@ public:
 		mysql_options(connection, MYSQL_OPT_CONNECT_TIMEOUT, &timeout);
 
 		// Enable SSL if requested.
+		const bool tls = config->getBool("tls", config->getBool("ssl"));
 #if defined LIBMYSQL_VERSION_ID && LIBMYSQL_VERSION_ID > 80000
-		unsigned int ssl = config->getBool("ssl") ? SSL_MODE_REQUIRED : SSL_MODE_PREFERRED;
-		mysql_options(connection, MYSQL_OPT_SSL_MODE, &ssl);
+		unsigned int sslmode = tls ? SSL_MODE_REQUIRED : SSL_MODE_PREFERRED;
+		mysql_options(connection, MYSQL_OPT_SSL_MODE, &sslmode);
+#else
+		// my_bool and bool function the same with regards to truthiness.
+		mysql_options(connection, MYSQL_OPT_SSL_ENFORCE, &tls);
 #endif
 
 		// Attempt to connect to the database.

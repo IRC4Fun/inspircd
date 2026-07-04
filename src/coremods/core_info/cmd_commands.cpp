@@ -1,7 +1,7 @@
 /*
  * InspIRCd -- Internet Relay Chat Daemon
  *
- *   Copyright (C) 2017, 2020-2022, 2024-2025 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2017, 2020-2022, 2024-2026 Sadie Powell <sadie@sadiepowell.dev>
  *   Copyright (C) 2014, 2016 Attila Molnar <attilamolnar@hush.com>
  *   Copyright (C) 2012 Robby <robby@chatbelgie.be>
  *   Copyright (C) 2009 Uli Schlachter <psychon@znc.in>
@@ -70,9 +70,7 @@ CmdResult CommandCommands::HandleLocal(LocalUser* user, const Params& parameters
 		return lhs.GetParams()[0] < rhs.GetParams()[0];
 	});
 
-	for (const auto& numeric : numerics)
-		user->WriteNumeric(numeric);
-
+	user->WriteNumeric(numerics);
 	user->WriteNumeric(RPL_COMMANDSEND, "End of COMMANDS list");
 	return CmdResult::SUCCESS;
 }

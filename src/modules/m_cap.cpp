@@ -1,7 +1,7 @@
 /*
  * InspIRCd -- Internet Relay Chat Daemon
  *
- *   Copyright (C) 2018-2023 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2018-2023 Sadie Powell <sadie@sadiepowell.dev>
  *   Copyright (C) 2015-2016, 2018 Attila Molnar <attilamolnar@hush.com>
  *
  * This file is part of InspIRCd.  InspIRCd is free software: you can
@@ -374,16 +374,14 @@ private:
 		std::string line;
 		for (const auto& cap : result)
 		{
-			if (line.length() + cap.length() < maxline)
-			{
-				line.append(cap);
-				line.push_back(' ');
-			}
-			else
+			if (line.length() + cap.length() >= maxline)
 			{
 				DisplaySingleResult(user, subcmd, line, asterisk);
 				line.clear();
 			}
+			if (!line.empty())
+				line.push_back(' ');
+			line.append(cap);
 		}
 		DisplaySingleResult(user, subcmd, line, false);
 	}

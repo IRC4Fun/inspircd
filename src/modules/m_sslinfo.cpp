@@ -3,7 +3,7 @@
  *
  *   Copyright (C) 2020 Matt Schatz <genius3000@g3k.solutions>
  *   Copyright (C) 2019 linuxdaemon <linuxdaemon.irc@gmail.com>
- *   Copyright (C) 2013, 2017-2025 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2013, 2017-2026 Sadie Powell <sadie@sadiepowell.dev>
  *   Copyright (C) 2013, 2015-2016 Attila Molnar <attilamolnar@hush.com>
  *   Copyright (C) 2012 Robby <robby@chatbelgie.be>
  *   Copyright (C) 2010 Adam <Adam@anope.org>
@@ -538,15 +538,18 @@ public:
 				counts[ciphersuite]++;
 		}
 
+		const auto total = ServerInstance->Users.GetLocalUsers().size();
 		for (const auto& [ciphersuite, count] : counts)
 		{
 			if (!count)
 				continue;
 
-			stats.AddGenericRow(INSP_FORMAT("{}: {}", ciphersuite, count))
+			const auto percent = total ? round((count * 100) / total) : 0;
+			stats.AddGenericRow(INSP_FORMAT("{}: {} ({:3.2f}%)", ciphersuite, count, percent))
 				.AddTags(stats, {
-					{ "ciphersuite", ciphersuite      },
-					{ "count",       ConvToStr(count) },
+					{ "ciphersuite", ciphersuite                     },
+					{ "count",       ConvToStr(count)                },
+					{ "percent",     INSP_FORMAT("{:3.2f}", percent) },
 				});
 		}
 		return MOD_RES_DENY;

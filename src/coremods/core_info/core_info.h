@@ -1,7 +1,7 @@
 /*
  * InspIRCd -- Internet Relay Chat Daemon
  *
- *   Copyright (C) 2018-2025 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2018-2025 Sadie Powell <sadie@sadiepowell.dev>
  *   Copyright (C) 2014, 2016 Attila Molnar <attilamolnar@hush.com>
  *
  * This file is part of InspIRCd.  InspIRCd is free software: you can
@@ -25,6 +25,7 @@
 
 /** This class manages the generation and transmission of ISUPPORT. */
 class ISupportManager final
+	: public ISupport::APIBase
 {
 private:
 	/** The generated numerics which are sent to clients. */
@@ -73,7 +74,7 @@ public:
 	/** Send the 005 numerics (ISUPPORT) to a user.
 	 * @param user The user to send the ISUPPORT numerics to
 	 */
-	void SendTo(LocalUser* user);
+	void SendTo(LocalUser* user) const override;
 };
 
 /** These commands require no parameters, but if there is a parameter it is a server name where the command will be routed to.

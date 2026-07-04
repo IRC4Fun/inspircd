@@ -1,7 +1,7 @@
 /*
  * InspIRCd -- Internet Relay Chat Daemon
  *
- *   Copyright (C) 2026 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2026 Sadie Powell <sadie@sadiepowell.dev>
  *
  * This file is part of InspIRCd.  InspIRCd is free software: you can
  * redistribute it and/or modify it under the terms of the GNU General Public
@@ -269,7 +269,7 @@ private:
 
 public:
 	IRCv3UTF8Only()
-		: Module(VF_CORE | VF_VENDOR, "RFC client protocol serializer and unserializer")
+		: Module(VF_CORE | VF_VENDOR, "Provides support for the IRCv3 UTF8ONLY specification.")
 		, ISupport::EventListener(this)
 		, utf8serializer(this)
 	{

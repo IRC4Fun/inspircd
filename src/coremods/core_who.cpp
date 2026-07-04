@@ -4,7 +4,7 @@
  *   Copyright (C) 2024 Glen Miner <shaggie76@gmail.com>
  *   Copyright (C) 2019 linuxdaemon <linuxdaemon.irc@gmail.com>
  *   Copyright (C) 2018 Adam <Adam@anope.org>
- *   Copyright (C) 2017-2023 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2017-2023 Sadie Powell <sadie@sadiepowell.dev>
  *   Copyright (C) 2013-2014, 2016 Attila Molnar <attilamolnar@hush.com>
  *   Copyright (C) 2012 Robby <robby@chatbelgie.be>
  *   Copyright (C) 2009-2010 Daniel De Graaf <danieldg@inspircd.org>
@@ -626,8 +626,7 @@ CmdResult CommandWho::HandleLocal(LocalUser* user, const Params& parameters)
 		WhoUsers(user, parameters, ServerInstance->Users.GetUsers(), data);
 
 	// Send the results to the source.
-	for (const auto& numeric : data.results)
-		user->WriteNumeric(numeric);
+	user->WriteNumeric(data.results);
 	user->WriteNumeric(RPL_ENDOFWHO, (data.matchtext.empty() ? "*" : data.matchtext.c_str()), "End of /WHO list.");
 
 	// Penalize the source a bit for large queries with one unit of penalty per 200 results.

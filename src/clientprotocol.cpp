@@ -1,7 +1,7 @@
 /*
  * InspIRCd -- Internet Relay Chat Daemon
  *
- *   Copyright (C) 2018-2024 Sadie Powell <sadie@witchery.services>
+ *   Copyright (C) 2018-2024 Sadie Powell <sadie@sadiepowell.dev>
  *   Copyright (C) 2018 Attila Molnar <attilamolnar@hush.com>
  *
  * This file is part of InspIRCd.  InspIRCd is free software: you can
@@ -174,4 +174,10 @@ void ClientProtocol::Event::GetMessagesForUser(LocalUser* user, MessageList& mes
 	ModResult res = event->FirstResult(&EventHook::OnPreEventSend, user, *this, messagelist);
 	if (res == MOD_RES_DENY)
 		messagelist.clear();
+}
+
+void ClientProtocol::Event::PostSendMessagesToUser(LocalUser* user, const MessageList& messagelist)
+{
+	if (this->event)
+		this->event->Call(&EventHook::OnPostEventSend, user, *this, messagelist);
 }
